@@ -1,0 +1,21 @@
+====================================================================
+PROJETO: GERENCIAMENTO DE ALUNOS (JAVA SPRING BOOT + MYSQL DOCKER)
+====================================================================
+
+Link do Repositorio GitHub:
+https://github.com/edneyfontenele/projeto-.git
+
+Acesso Web:
+https://github.com/edneyfontenele/projeto-
+
+--------------------------------------------------------------------
+Campos Adicionados:
+- E-mail do Aluno
+- Nota do ENADE
+
+Tecnologias:
+- Java 17
+- Spring Boot 2.6.7 / Spring Data JPA / Thymeleaf
+- MySQL 8.0 (Docker)
+- phpMyAdmin (Docker)
+====================================================================
