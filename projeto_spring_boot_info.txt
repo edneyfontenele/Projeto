@@ -4,30 +4,44 @@
 
 Projeto Prático desenvolvido/adaptado para a disciplina de Desenvolvimento de Aplicações
 Professor: João Paulo Pimentel
-
-Link do repositório base original no GitHub:
-https://github.com/profjppimentel/gerenciamento-alunos-crud-springboot-master.git
+Aluno / Repositório: https://github.com/edneyfontenele/projeto-.git
 
 --------------------------------------------------------------------------------
-1. RESUMO DAS ALTERAÇÕES REALIZADAS (CAMPOS: E-MAIL E NOTA DO ENADE)
+1. LINKS DO REPOSITÓRIO GITHUB E ARQUIVOS ENTREGUES
+--------------------------------------------------------------------------------
+* Link do Repositório GitHub do Aluno (Entrega):
+  https://github.com/edneyfontenele/projeto-.git
+
+* Link do Repositório Original (Professor):
+  https://github.com/profjppimentel/gerenciamento-alunos-crud-springboot-master.git
+
+* Arquivo Compactado (.ZIP):
+  gerenciamento-alunos-com-enade-e-email.zip
+
+* Documentos:
+  - projeto_spring_boot_info.txt (Texto)
+  - projeto_spring_boot_info.docx (Microsoft Word)
+
+--------------------------------------------------------------------------------
+2. RESUMO DAS ALTERAÇÕES REALIZADAS (CAMPOS: E-MAIL E NOTA DO ENADE)
 --------------------------------------------------------------------------------
 
 Foram adicionados com sucesso os campos de 'E-mail' e 'Nota do ENADE' em todas as camadas da aplicação:
 
-1.1. Modelo Java (br.com.gerenciamento.model.Aluno):
-   - Inclusão do campo 'email' (String) com anotações de validação:
+2.1. Modelo Java (br.com.gerenciamento.model.Aluno):
+   - Inclusão do campo 'email' (String) com validações:
      * @Column(name = "email")
      * @NotBlank(message = "O e-mail não pode ser vazio")
      * @Email(message = "Insira um e-mail válido")
      * @NotNull(message = "O e-mail é obrigatório")
-   - Inclusão do campo 'notaEnade' (Double) com anotações de validação:
+   - Inclusão do campo 'notaEnade' (Double) com validações:
      * @Column(name = "nota_enade")
      * @NotNull(message = "A nota do ENADE é obrigatória")
      * @Min(value = 0, message = "A nota do ENADE não pode ser menor que 0")
      * @Max(value = 100, message = "A nota do ENADE não pode ser maior que 100")
-   - Implementação de todos os Getters e Setters correspondentes (getEmail, setEmail, getNotaEnade, setNotaEnade).
+   - Implementação de todos os Getters e Setters (getEmail, setEmail, getNotaEnade, setNotaEnade).
 
-1.2. Camada de Visualização (Thymeleaf / HTML):
+2.2. Camada de Visualização (Thymeleaf / HTML):
    - 'formAluno.html' (Cadastro de Alunos):
      * Adicionado campo de entrada de texto e validação para Email do Aluno.
      * Adicionado campo numérico (0 a 100, step 0.01) para Nota do ENADE.
@@ -42,93 +56,37 @@ Foram adicionados com sucesso os campos de 'E-mail' e 'Nota do ENADE' em todas a
    - 'pesquisa-resultado.html' (Busca):
      * Adicionadas as colunas 'Email' e 'Nota ENADE' nos resultados da busca por nome.
 
-1.3. Banco de Dados MySQL (Script de Inicialização Docker - init/01-init.sql):
+2.3. Banco de Dados MySQL (Script Docker - init/01-init.sql):
    - Schema: academyspring
-   - Tabela Aluno atualizada com:
-     * id INT AUTO_INCREMENT PRIMARY KEY
-     * nome VARCHAR(100) NOT NULL
-     * email VARCHAR(100) NOT NULL
-     * matricula VARCHAR(100) NOT NULL
-     * nota_enade DECIMAL(5,2) NULL
-     * curso VARCHAR(100) NOT NULL
-     * status VARCHAR(100) NOT NULL
-     * turno VARCHAR(100) NOT NULL
+   - Tabela Aluno com: id, nome, email, matricula, nota_enade, curso, status, turno.
    - Tabela Usuario para autenticação.
-   - Carga inicial com registros de alunos contendo nome, e-mail e notas do ENADE para testes imediatos.
+   - Carga inicial com registros de teste contendo e-mail e notas do ENADE.
 
 --------------------------------------------------------------------------------
-2. CONFIGURAÇÃO E EXECUÇÃO DO BANCO DE DADOS NO DOCKER
+3. EXECUÇÃO 100% VIA DOCKER (BANCO + SERVIDOR WEB)
 --------------------------------------------------------------------------------
 
-O banco de dados roda 100% via Docker e Docker Compose, eliminando a necessidade de instalar MySQL localmente no computador.
+Tudo roda automaticamente no Docker sem necessidade de instalar MySQL ou Java manualmente:
 
-Para iniciar os containers (MySQL 8.0 e phpMyAdmin):
-- Opção A (Windows Explorer): Dê um duplo-clique no arquivo 'iniciar.bat'
-- Opção B (Linha de comando):
-  docker compose up -d
+Para iniciar todos os serviços (MySQL + phpMyAdmin + Servidor Spring Boot):
+- Dê um duplo-clique no arquivo 'iniciar.bat' (ou execute: docker compose up -d)
 
-Para parar os containers:
-- Opção A (Windows Explorer): Dê um duplo-clique no arquivo 'parar.bat'
-- Opção B (Linha de comando):
-  docker compose down
+Para parar os serviços:
+- Dê um duplo-clique no arquivo 'parar.bat' (ou execute: docker compose down)
 
-Portas e Serviços:
-- MySQL Server: localhost:3306
-  * Database: academyspring
-  * Usuário: root
-  * Senha: root
-- phpMyAdmin (Interface Web do Banco): http://localhost:8080
-  * Servidor: mysql (ou localhost)
-  * Usuário: root
-  * Senha: root
+Endereços de Acesso:
+- Aplicação Web Spring Boot: http://localhost:8082
+- phpMyAdmin (Painel do Banco): http://localhost:8081
+- Porta do MySQL: localhost:3306 (user: root, senha: root)
 
 --------------------------------------------------------------------------------
-3. COMO EXECUTAR O PROJETO SPRING BOOT
+4. CREDENCIAIS DE LOGIN DE TESTE
 --------------------------------------------------------------------------------
-
-3.1. No Eclipse IDE:
-   1. Abra o Eclipse.
-   2. Vá em File -> Import... -> Maven -> Existing Maven Projects.
-   3. Selecione a pasta descompactada do projeto ('gerenciamento-alunos-crud-springboot').
-   4. Clique em Finish e aguarde o download das dependências do Maven.
-   5. Clique com o botão direito na classe 'GerenciamentoAlunosApplication.java' -> Run As -> Java Application (ou Spring Boot App).
-
-3.2. No VS Code ou IntelliJ IDEA:
-   1. Abra a pasta 'gerenciamento-alunos-crud-springboot' na IDE.
-   2. Execute o arquivo 'GerenciamentoAlunosApplication.java' ou utilize o painel Spring Boot Dashboard.
-
-3.3. Pela Linha de Comando (Maven Wrapper):
-   - Windows:
-     .\mvnw.cmd spring-boot:run
-   - Linux/Mac:
-     ./mvnw spring-boot:run
-
---------------------------------------------------------------------------------
-4. ACESSO À APLICAÇÃO WEB
---------------------------------------------------------------------------------
-
-Após iniciar a aplicação:
-- Abra no navegador: http://localhost:8082/ (ou http://localhost:8080/ se configurada a porta padrão)
-
-Credenciais de Usuário para Login:
 - Usuário 1:
   * Username: julius
   * Senha: 123
 - Usuário 2:
   * Username: test
   * Senha: 1234
-
-(Você também pode clicar em 'Clique aqui para se cadastrar' na tela de login e criar um novo usuário com qualquer e-mail/senha).
-
---------------------------------------------------------------------------------
-5. ARQUIVOS ENTREGUES
---------------------------------------------------------------------------------
-- gerenciamento-alunos-com-enade-e-email.zip  -> Projeto Spring Boot completo e compactado.
-- gerenciamento-alunos-crud-springboot/      -> Código-fonte completo com as alterações.
-- docker-compose.yml                         -> Configuração dos serviços Docker (MySQL e phpMyAdmin).
-- .env                                       -> Variáveis de ambiente do banco.
-- init/01-init.sql                           -> Script SQL com a tabela Aluno (email e nota_enade) e dados de teste.
-- iniciar.bat / parar.bat                    -> Atalhos rápidos para subir/parar o banco Docker.
-- projeto_spring_boot_info.txt               -> Este arquivo com documentação e links.
-- projeto_spring_boot_info.docx              -> Documento formatado em Microsoft Word com todas as instruções.
+(Também é possível cadastrar novos usuários livremente na tela inicial).
 ================================================================================
