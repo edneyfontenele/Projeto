@@ -1,0 +1,60 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-academyspring}
+      MYSQL_USER: ${MYSQL_USER:-usuario}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-senha123}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: mysql-phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    ports:
+      - "${PMA_PORT:-8081}:80"
+
+  app:
+    image: maven:3.8-openjdk-17
+    container_name: spring-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    working_dir: /app
+    volumes:
+      - ./gerenciamento-alunos-crud-springboot:/app
+      - maven_cache:/root/.m2
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/academyspring?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SERVER_PORT: ${APP_PORT:-8082}
+    ports:
+      - "${APP_PORT:-8082}:${APP_PORT:-8082}"
+    command: mvn spring-boot:run
+
+volumes:
+  mysql_data:
+    driver: local
+  maven_cache:
+    driver: local
