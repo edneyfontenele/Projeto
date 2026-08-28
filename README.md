@@ -6,8 +6,8 @@ Ambiente completo configurado com **MySQL 8.0**, **phpMyAdmin** e o projeto **Sp
 
 ## 🔗 Links do Repositório
 
-- **Link do Repositório no GitHub (Aluno):** [https://github.com/edneyfontenele/projeto-](https://github.com/edneyfontenele/projeto-)
-- **URL Git para Clonar:** `https://github.com/edneyfontenele/projeto-.git`
+- **Link do Repositório no GitHub (Aluno):** [https://github.com/edneyfontenele/Projeto](https://github.com/edneyfontenele/Projeto)
+- **URL Git para Clonar:** `https://github.com/edneyfontenele/Projeto.git`
 - **Repositório Original (Professor):** [https://github.com/profjppimentel/gerenciamento-alunos-crud-springboot-master](https://github.com/profjppimentel/gerenciamento-alunos-crud-springboot-master)
 
 ---

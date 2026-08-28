@@ -4,13 +4,13 @@
 
 Projeto Prático desenvolvido/adaptado para a disciplina de Desenvolvimento de Aplicações
 Professor: João Paulo Pimentel
-Aluno / Repositório: https://github.com/edneyfontenele/projeto-.git
+Aluno / Repositório: https://github.com/edneyfontenele/Projeto.git
 
 --------------------------------------------------------------------------------
 1. LINKS DO REPOSITÓRIO GITHUB E ARQUIVOS ENTREGUES
 --------------------------------------------------------------------------------
 * Link do Repositório GitHub do Aluno (Entrega):
-  https://github.com/edneyfontenele/projeto-.git
+  https://github.com/edneyfontenele/Projeto.git
 
 * Link do Repositório Original (Professor):
   https://github.com/profjppimentel/gerenciamento-alunos-crud-springboot-master.git

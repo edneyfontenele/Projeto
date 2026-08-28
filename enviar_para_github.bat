@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 echo ====================================================================
-echo       ENVIAR PROJETO PARA O GITHUB (edneyfontenele/projeto-)
+echo       ENVIAR PROJETO PARA O GITHUB (edneyfontenele/Projeto)
 echo ====================================================================
 echo.
 echo Para enviar os arquivos para o seu repositorio no GitHub com seguranca,
@@ -23,14 +23,14 @@ if "%TOKEN%"=="" (
 )
 
 echo.
-echo Enviando arquivos para https://github.com/edneyfontenele/projeto-.git ...
-docker run --rm --entrypoint /bin/sh -v "%cd%:/workspace" -w /workspace alpine/git -c "git push https://edneyfontenele:%TOKEN%@github.com/edneyfontenele/projeto-.git main --force"
+echo Enviando arquivos para https://github.com/edneyfontenele/Projeto.git ...
+docker run --rm --entrypoint /bin/sh -v "%cd%:/workspace" -w /workspace alpine/git -c "git push https://edneyfontenele:%TOKEN%@github.com/edneyfontenele/Projeto.git main --force"
 
 if %errorlevel% equ 0 (
     echo.
     echo ====================================================================
     echo [SUCESSO!] Todos os arquivos foram enviados para o seu GitHub!
-    echo Acesse: https://github.com/edneyfontenele/projeto-
+    echo Acesse: https://github.com/edneyfontenele/Projeto
     echo ====================================================================
 ) else (
     echo.

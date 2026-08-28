@@ -3,10 +3,10 @@ PROJETO: GERENCIAMENTO DE ALUNOS (JAVA SPRING BOOT + MYSQL DOCKER)
 ====================================================================
 
 Link do Repositorio GitHub:
-https://github.com/edneyfontenele/projeto-.git
+https://github.com/edneyfontenele/Projeto.git
 
 Acesso Web:
-https://github.com/edneyfontenele/projeto-
+https://github.com/edneyfontenele/Projeto
 
 --------------------------------------------------------------------
 Campos Adicionados:

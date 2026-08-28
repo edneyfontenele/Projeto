@@ -2,7 +2,7 @@
 
 # Projeto CRUD Spring Boot
 
-- **Repositório GitHub:** [https://github.com/edneyfontenele/projeto-](https://github.com/edneyfontenele/projeto-)
+- **Repositório GitHub:** [https://github.com/edneyfontenele/Projeto](https://github.com/edneyfontenele/Projeto)
 
 ## Sobre o Projeto:
 
