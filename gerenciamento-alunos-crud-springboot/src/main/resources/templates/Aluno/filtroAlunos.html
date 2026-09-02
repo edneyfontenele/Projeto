@@ -22,7 +22,7 @@
         <div class="row">
             <div class="card" style="width: 288px">
                 <a th:href="@{/alunos-ativos}">
-                <img class="card-img-top" src="img/alunos.ativos.jpg"/>
+                <img class="card-img-top" th:src="@{/img/alunos.ativos.jpg}" src="/img/alunos.ativos.jpg"/>
                 </a>
             <div class="card-body">
                 <h5 class="card-title">Todos os Alunos Ativos no Sistema</h5>
@@ -33,7 +33,7 @@
         <!-- Alunos Invativos -->
             <div class="card mx-lg-3" style="width: 288px">
                 <a th:href="@{/alunos-inativos}">
-                <img class="card-img-top" src="img/alunos.inativos.jpg"/>
+                <img class="card-img-top" th:src="@{/img/alunos.inativos.jpg}" src="/img/alunos.inativos.jpg"/>
                 </a>
             <div class="card-body">
                 <h5 class="card-title">Todos os Alunos Inativos no Sistema</h5>

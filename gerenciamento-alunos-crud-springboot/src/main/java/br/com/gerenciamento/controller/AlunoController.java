@@ -107,4 +107,30 @@ public class AlunoController {
         modelAndView.setViewName("Aluno/pesquisa-resultado");
         return modelAndView;
     }
+
+    @GetMapping("/media-enade")
+    public ModelAndView mediaEnade() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("Aluno/mediaEnade");
+        
+        List<Aluno> alunos = alunoRepository.findByStatusAtivo();
+        double soma = 0;
+        int count = 0;
+        for (Aluno aluno : alunos) {
+            if (aluno.getNotaEnade() != null) {
+                soma += aluno.getNotaEnade();
+                count++;
+            }
+        }
+        
+        double media = 0;
+        if (count > 0) {
+            media = soma / count;
+        }
+        
+        modelAndView.addObject("mediaEnade", media);
+        modelAndView.addObject("totalAlunos", count);
+        
+        return modelAndView;
+    }
 }
