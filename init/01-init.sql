@@ -30,12 +30,16 @@ INSERT INTO Usuario (id, email, senha, user) VALUES
 (2, 'test@email.com', '98f6bcd4621d373cade4e832627b4f6', 'test')
 ON DUPLICATE KEY UPDATE user=VALUES(user);
 
--- Insercao de alunos de exemplo com email e nota do ENADE
+-- Insercao de alunos de exemplo para todos os cursos com matricula, email e nota do ENADE
 INSERT INTO Aluno (id, nome, email, matricula, nota_enade, curso, status, turno) VALUES
 (1, 'Maria Almeida Pires', 'maria.almeida@exemplo.com', 'ACA202215', 85.50, 'CONTABILIDADE', 'ATIVO', 'MATUTINO'),
 (2, 'Matheus Faria', 'matheus.faria@exemplo.com', 'ACA2022805', 72.00, 'INFORMATICA', 'INATIVO', 'MATUTINO'),
 (3, 'Matheus Cunha', 'matheus.cunha@exemplo.com', 'ACA2022785', 91.00, 'CONTABILIDADE', 'ATIVO', 'NOTURNO'),
 (4, 'Vanessa Martins', 'vanessa.martins@exemplo.com', 'ACA2022365', 88.00, 'DIREITO', 'ATIVO', 'MATUTINO'),
 (5, 'Patrick Aquino', 'patrick.aquino@exemplo.com', 'ACA2022715', 65.50, 'INFORMATICA', 'INATIVO', 'NOTURNO'),
-(6, 'Wanderson Souza', 'wanderson.souza@exemplo.com', 'ACA2022605', 95.00, 'BIOMEDICINA', 'ATIVO', 'MATUTINO')
+(6, 'Wanderson Souza', 'wanderson.souza@exemplo.com', 'ACA2022605', 95.00, 'BIOMEDICINA', 'ATIVO', 'MATUTINO'),
+(7, 'Camila Rocha Lima', 'camila.rocha@exemplo.com', 'ACA2023101', 82.00, 'ADMINISTRACAO', 'ATIVO', 'MATUTINO'),
+(8, 'Lucas Gabriel Santos', 'lucas.gabriel@exemplo.com', 'ACA2023102', 78.50, 'ADMINISTRACAO', 'ATIVO', 'NOTURNO'),
+(9, 'Beatriz Mendes Silva', 'beatriz.mendes@exemplo.com', 'ACA2023201', 89.00, 'ENFERMAGEM', 'ATIVO', 'MATUTINO'),
+(10, 'Thiago Fernandes Costa', 'thiago.costa@exemplo.com', 'ACA2023202', 93.50, 'ENFERMAGEM', 'ATIVO', 'NOTURNO')
 ON DUPLICATE KEY UPDATE nome=VALUES(nome);

@@ -2,91 +2,95 @@
           SISTEMA DE GERENCIAMENTO DE ALUNOS - JAVA SPRING BOOT + MYSQL DOCKER
 ================================================================================
 
-Projeto Prático desenvolvido/adaptado para a disciplina de Desenvolvimento de Aplicações
-Professor: João Paulo Pimentel
-Aluno / Repositório: https://github.com/edneyfontenele/Projeto.git
+Projeto Pratico desenvolvido/adaptado para a disciplina de Desenvolvimento de Aplicacoes
+Aluno / Repositorio: https://github.com/edneyfontenele/Projeto.git
 
 --------------------------------------------------------------------------------
-1. LINKS DO REPOSITÓRIO GITHUB E ARQUIVOS ENTREGUES
+1. LINKS DO REPOSITORIO GITHUB E ARQUIVOS DE ENTREGA
 --------------------------------------------------------------------------------
-* Link do Repositório GitHub do Aluno (Entrega):
+* Link do Repositorio GitHub do Aluno (Entrega):
   https://github.com/edneyfontenele/Projeto.git
 
-* Link do Repositório Original (Professor):
+* Link do Repositorio Original:
   https://github.com/profjppimentel/gerenciamento-alunos-crud-springboot-master.git
 
 * Arquivo Compactado (.ZIP):
-  gerenciamento-alunos-com-enade-e-email.zip
+  gerenciamento-alunos-crud-springboot.zip
 
-* Documentos:
-  - projeto_spring_boot_info.txt (Texto)
-  - projeto_spring_boot_info.docx (Microsoft Word)
-
---------------------------------------------------------------------------------
-2. RESUMO DAS ALTERAÇÕES REALIZADAS (CAMPOS: E-MAIL E NOTA DO ENADE)
---------------------------------------------------------------------------------
-
-Foram adicionados com sucesso os campos de 'E-mail' e 'Nota do ENADE' em todas as camadas da aplicação:
-
-2.1. Modelo Java (br.com.gerenciamento.model.Aluno):
-   - Inclusão do campo 'email' (String) com validações:
-     * @Column(name = "email")
-     * @NotBlank(message = "O e-mail não pode ser vazio")
-     * @Email(message = "Insira um e-mail válido")
-     * @NotNull(message = "O e-mail é obrigatório")
-   - Inclusão do campo 'notaEnade' (Double) com validações:
-     * @Column(name = "nota_enade")
-     * @NotNull(message = "A nota do ENADE é obrigatória")
-     * @Min(value = 0, message = "A nota do ENADE não pode ser menor que 0")
-     * @Max(value = 100, message = "A nota do ENADE não pode ser maior que 100")
-   - Implementação de todos os Getters e Setters (getEmail, setEmail, getNotaEnade, setNotaEnade).
-
-2.2. Camada de Visualização (Thymeleaf / HTML):
-   - 'formAluno.html' (Cadastro de Alunos):
-     * Adicionado campo de entrada de texto e validação para Email do Aluno.
-     * Adicionado campo numérico (0 a 100, step 0.01) para Nota do ENADE.
-   - 'editar.html' (Edição de Alunos):
-     * Adicionados os campos de edição para Email e Nota do ENADE.
-   - 'listAlunos.html' (Listagem Geral):
-     * Adicionadas as colunas 'Email' e 'Nota ENADE' na tabela de alunos cadastrados.
-   - 'alunos-ativos.html' (Filtro Ativos):
-     * Adicionadas as colunas 'Email' e 'Nota ENADE'.
-   - 'alunos-inativos.html' (Filtro Inativos):
-     * Adicionadas as colunas 'Email' e 'Nota ENADE'.
-   - 'pesquisa-resultado.html' (Busca):
-     * Adicionadas as colunas 'Email' e 'Nota ENADE' nos resultados da busca por nome.
-
-2.3. Banco de Dados MySQL (Script Docker - init/01-init.sql):
-   - Schema: academyspring
-   - Tabela Aluno com: id, nome, email, matricula, nota_enade, curso, status, turno.
-   - Tabela Usuario para autenticação.
-   - Carga inicial com registros de teste contendo e-mail e notas do ENADE.
+* Documentos de Apresentacao:
+  - projeto_link_github_e_instrucoes.txt (Arquivo Texto)
+  - projeto_link_github_e_instrucoes.docx (Arquivo Word)
 
 --------------------------------------------------------------------------------
-3. EXECUÇÃO 100% VIA DOCKER (BANCO + SERVIDOR WEB)
+2. NOVA FUNCIONALIDADE IMPLEMENTADA: TELA DE ALUNOS POR CURSO COM FILTRO
+--------------------------------------------------------------------------------
+Conforme solicitacao, foi criada uma tela dedicada para exibir os alunos matriculados
+separados por Curso, com destaque para Matricula e Nome, e filtro por qualquer um dos cursos:
+[ADMINISTRACAO, INFORMATICA, CONTABILIDADE, ENFERMAGEM, BIOMEDICINA OU DIREITO].
+
+2.1. Camada de Repositorio (AlunoRepository.java):
+   - Adicao do metodo:
+     List<Aluno> findByCurso(Curso curso);
+   - Permite consultas diretas filtradas pelo enum do curso solicitado.
+
+2.2. Camada de Controle (AlunoController.java):
+   - Novo endpoint mapeado:
+     @GetMapping("/alunos-por-curso")
+   - Parametro opcional: 'curso' (ex: ?curso=INFORMATICA)
+   - Funcionalidades do Controller:
+     * Quando nenhum filtro e aplicado (ou 'TODOS'): monta um mapa ordenado agrupando
+       todos os alunos separados por cada um dos 6 cursos de graduacao.
+     * Quando um curso especifico e selecionado: retorna a lista exclusiva dos alunos
+       daquele curso juntamente com a contagem total de matriculados.
+
+2.3. Camada de Visao (Thymeleaf / HTML / Bootstrap):
+   - Nova pagina: 'alunos-por-curso.html'
+     * Barra de filtro superior com botoes rapidos (badges interativos) para cada curso:
+       [Todos os Cursos], [Administracao], [Informatica], [Contabilidade], [Enfermagem], [Biomedicina], [Direito].
+     * Seletor dropdown (combobox) permitindo escolher o curso e clicar em 'Aplicar Filtro'.
+     * Exibicao em destaque da MATRICULA (tag estilizada monospace) e do NOME DO ALUNO,
+       alem de status (Ativo/Inativo), turno, email, nota ENADE e botoes de acao (Editar e Remover).
+     * Visualizacao separada em cards por curso quando nenhum filtro especifico esta selecionado.
+   - Atualizacao do Cabecalho ('fragmentos.html'):
+     * Inclusao do link direto 'Alunos por Curso' no menu de navegacao superior com icone tematico.
+   - Atualizacao da tela 'filtroAlunos.html':
+     * Inclusao do card tematico 'Alunos Separados por Curso' com imagem e botao de acesso direto.
+   - Atualizacao da tela inicial ('index.html'):
+     * Inclusao do botao de atalho 'ALUNOS POR CURSO' na tela principal.
+
+2.4. Banco de Dados e Carga Inicial (init/01-init.sql):
+   - Inseridos registros de exemplo contemplando todos os 6 cursos do enum, garantindo
+     dados para teste de Administracao, Informatica, Contabilidade, Enfermagem, Biomedicina e Direito.
+
+--------------------------------------------------------------------------------
+3. COMO EXECUTAR O PROJETO (VIA DOCKER OU MANUALMENTE)
 --------------------------------------------------------------------------------
 
-Tudo roda automaticamente no Docker sem necessidade de instalar MySQL ou Java manualmente:
+3.1. Execucao 100% automatizada via Docker (Recomendado):
+   Na pasta raiz do projeto:
+   - Para iniciar todos os servicos (Banco MySQL + phpMyAdmin + Servidor Spring Boot):
+     Execute: docker compose up -d (ou clique duas vezes em 'iniciar.bat')
+   - Para parar os servicos:
+     Execute: docker compose down (ou clique duas vezes em 'parar.bat')
 
-Para iniciar todos os serviços (MySQL + phpMyAdmin + Servidor Spring Boot):
-- Dê um duplo-clique no arquivo 'iniciar.bat' (ou execute: docker compose up -d)
+   Enderecos de Acesso:
+   - Sistema Web Spring Boot: http://localhost:8082
+   - Tela direta da nova funcionalidade: http://localhost:8082/alunos-por-curso
+   - phpMyAdmin (Gerenciador MySQL): http://localhost:8081
+   - Conexao direta MySQL: localhost:3306 (user: root, senha: root, banco: academyspring)
 
-Para parar os serviços:
-- Dê um duplo-clique no arquivo 'parar.bat' (ou execute: docker compose down)
-
-Endereços de Acesso:
-- Aplicação Web Spring Boot: http://localhost:8082
-- phpMyAdmin (Painel do Banco): http://localhost:8081
-- Porta do MySQL: localhost:3306 (user: root, senha: root)
+3.2. Execucao Local (caso possua Maven e Java 11+ instalados na maquina):
+   cd gerenciamento-alunos-crud-springboot
+   mvn spring-boot:run
 
 --------------------------------------------------------------------------------
-4. CREDENCIAIS DE LOGIN DE TESTE
+4. CREDENCIAIS DE USUARIOS PARA LOGIN DE TESTE
 --------------------------------------------------------------------------------
-- Usuário 1:
-  * Username: julius
+- Usuario Julius:
+  * Username / Login: julius
   * Senha: 123
-- Usuário 2:
-  * Username: test
+- Usuario Test:
+  * Username / Login: test
   * Senha: 1234
-(Também é possível cadastrar novos usuários livremente na tela inicial).
+(Tambem e possivel cadastrar novos usuarios a qualquer momento na tela inicial de login).
 ================================================================================

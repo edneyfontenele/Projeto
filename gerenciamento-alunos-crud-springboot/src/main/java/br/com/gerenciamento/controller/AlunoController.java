@@ -1,7 +1,8 @@
 package br.com.gerenciamento.controller;
 
-import br.com.gerenciamento.repository.AlunoRepository;
+import br.com.gerenciamento.enums.Curso;
 import br.com.gerenciamento.model.Aluno;
+import br.com.gerenciamento.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.validation.Valid;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AlunoController {
@@ -34,8 +38,8 @@ public class AlunoController {
             modelAndView.setViewName("Aluno/formAluno");
             modelAndView.addObject("aluno");
         } else {
-        modelAndView.setViewName("redirect:/alunos-adicionados");
-        alunoRepository.save(aluno);
+            modelAndView.setViewName("redirect:/alunos-adicionados");
+            alunoRepository.save(aluno);
         }
         return modelAndView;
     }
@@ -49,7 +53,7 @@ public class AlunoController {
     }
 
     @GetMapping("/editar/{id}")
-    public ModelAndView editar(@PathVariable("id")Long id) {
+    public ModelAndView editar(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/editar");
         Aluno aluno = alunoRepository.getById(id);
@@ -94,6 +98,40 @@ public class AlunoController {
         return modelAndView;
     }
 
+    @GetMapping("/alunos-por-curso")
+    public ModelAndView alunosPorCurso(@RequestParam(value = "curso", required = false) String cursoStr) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("Aluno/alunos-por-curso");
+        modelAndView.addObject("cursos", Curso.values());
+        modelAndView.addObject("cursoSelecionado", cursoStr != null ? cursoStr.toUpperCase().trim() : "");
+
+        boolean filtroAtivo = false;
+        Curso cursoFiltrado = null;
+
+        if (cursoStr != null && !cursoStr.trim().isEmpty() && !cursoStr.equalsIgnoreCase("TODOS")) {
+            try {
+                cursoFiltrado = Curso.valueOf(cursoStr.toUpperCase().trim());
+                List<Aluno> alunos = alunoRepository.findByCurso(cursoFiltrado);
+                modelAndView.addObject("alunosFiltrados", alunos);
+                filtroAtivo = true;
+            } catch (IllegalArgumentException e) {
+                filtroAtivo = false;
+            }
+        }
+
+        modelAndView.addObject("filtroAtivo", filtroAtivo);
+        modelAndView.addObject("cursoFiltrado", cursoFiltrado);
+
+        // Agrupamento de todos os alunos separados por curso
+        Map<Curso, List<Aluno>> alunosPorCursoMap = new LinkedHashMap<>();
+        for (Curso c : Curso.values()) {
+            alunosPorCursoMap.put(c, alunoRepository.findByCurso(c));
+        }
+        modelAndView.addObject("alunosPorCursoMap", alunosPorCursoMap);
+
+        return modelAndView;
+    }
+
     @PostMapping("/pesquisar-aluno")
     public ModelAndView pesquisarAluno(@RequestParam(required = false) String nome) {
         ModelAndView modelAndView = new ModelAndView();
@@ -112,7 +150,7 @@ public class AlunoController {
     public ModelAndView mediaEnade() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("Aluno/mediaEnade");
-        
+
         List<Aluno> alunos = alunoRepository.findByStatusAtivo();
         double soma = 0;
         int count = 0;
@@ -122,15 +160,15 @@ public class AlunoController {
                 count++;
             }
         }
-        
+
         double media = 0;
         if (count > 0) {
             media = soma / count;
         }
-        
+
         modelAndView.addObject("mediaEnade", media);
         modelAndView.addObject("totalAlunos", count);
-        
+
         return modelAndView;
     }
 }
